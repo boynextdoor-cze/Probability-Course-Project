@@ -1,0 +1,70 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage{enumerate}
+\usepackage{amssymb}
+\usepackage{parskip}
+\usepackage{changepage}
+\usepackage{autobreak}
+\usepackage[UTF8]{ctex}
+\usepackage{indentfirst}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+
+\renewcommand{\algorithmicensure}{\textbf{Initialize:}}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+
+\begin{document}
+
+\begin{algorithm}
+\caption{UCB-DE}
+\begin{algorithmic}[1]
+    \Require $\theta_1(\lambda),\theta_2(\lambda),\theta_3(\lambda)$
+    \For {$t=1,2,3$}
+    \State $I(t)\gets t$
+    \State $n_{I(t)}\gets 1$
+    \State $\hat{\theta}_{I(t)}\gets r_{I(t)}$
+    \EndFor
+    \For {$t=4\to N$}
+    \State $I^{opt}=\mathop{\arg\max}\limits_{i\in\{1,2,3\}}n_i$
+    \State $\Lambda=\left\{\lambda:|\theta_{I^{opt}}(\lambda)-\hat{\theta}({I^{opt}})|\leqslant\sqrt{\frac{2\ln(t)}{n_{I^{opt}}}}\right\}$
+    \State $\mathcal{C}=\left\{j:\theta_j(\lambda)=\max\limits_{i\in\{1,2,3\}}\theta_i(\lambda)\text{ for some }\lambda\in(0,1)\right\}$
+    \State $I(t)\gets\mathop{\arg\max}\limits_{i\in\mathcal{C}}\left(\hat{\theta}_i+c\sqrt{\frac{2\ln(t)}{n_i}}\right)$
+    \State $n_{I(t)}\gets n_{I(t)}+1$
+    \State $\hat{\theta}_{I(t)}\gets\hat{\theta}_{I(t)}+\frac{r_{I(t)}-\hat{\theta}_{I(t)}}{n_{I(t)}}$
+    \EndFor
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{UCB-LB}
+\begin{algorithmic}[1]
+    \Ensure Sort arms in ascending order of cost.
+    \State $W_1=W$
+    \For {$t=1,2,3$}
+    \State $I(t)\gets t$
+    \State $n_{I(t)}\gets 1$
+    \State $\hat{\theta}_{I(t)}\gets r_{I(t)}$
+    \State $W_{t+1}=W_t-c_{I(t)}$
+    \EndFor
+    \For {$t=4\to N$}
+    \State $\mathcal{S}=\Big\{i:c_i\leqslant W_t,i\in\{1,2,3\}\Big\}$
+    \If {$\mathcal{S}=\varnothing$}
+    \State Terminate the algorithm
+    \EndIf
+    \State $I(t)\gets\mathop{\arg\max}\limits_{i\in\mathcal{S}}\left(\frac{\hat{\theta}_i+C\sqrt{\frac{2\ln(t)}{n_i}}}{c_i}\right)$
+    \State $n_{I(t)}\gets n_{I(t)}+1$
+    \State $\hat{\theta}_{I(t)}\gets\hat{\theta}_{I(t)}+\frac{r_{I(t)}-\hat{\theta}_{I(t)}}{n_{I(t)}}$
+    \State $W_{t+1}=W_t-c_{I(t)}$
+    \EndFor
+\end{algorithmic}
+\end{algorithm}
+
+
+\end{document}
