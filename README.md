@@ -1,6 +1,6 @@
 # SI140 (Probability and Statistics) Course Project
 
-School of Information Science and Technology offers this course in Fall 2021. This course does not teach purely mathematical knowledge about probability and statistics. The instructor, Prof. Ziyu Shao, also teaches some connections between probability and information science.
+School of Information Science and Technology offers this course in Fall 2021. The course is specially designed for information science, rather than pure mathmatical stuff.
 
 This project is about a classical problem in reinforcement learning, named Multi-armed Bandit.
 
